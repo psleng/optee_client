@@ -12,7 +12,7 @@ Type=forking
 User=@CFG_TEE_SUPPL_USER@
 Group=@CFG_TEE_SUPPL_GROUP@
 EnvironmentFile=-/@CMAKE_INSTALL_SYSCONFDIR@/default/tee-supplicant
-ExecStart=@CMAKE_INSTALL_USR_SBINDIR@/tee-supplicant -d /dev/%i -l /lib/firmware/optee $OPTARGS
+ExecStart=/usr/sbin/tee-supplicant -d /dev/%i -l /lib/firmware/optee $OPTARGS
 # start ftpm driver after tee-supplicant
 ExecStartPost=-/usr/sbin/rmmod tpm_ftpm_tee ; /usr/sbin/modprobe tpm_ftpm_tee
 KillSignal=SIGTERM
