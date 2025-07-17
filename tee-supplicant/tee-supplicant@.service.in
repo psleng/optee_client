@@ -8,10 +8,13 @@ Conflicts=shutdown.target
 Before=tpm2.target sysinit.target shutdown.target
 
 [Service]
-Type=notify
+Type=forking
 User=@CFG_TEE_SUPPL_USER@
 Group=@CFG_TEE_SUPPL_GROUP@
-EnvironmentFile=-@CMAKE_INSTALL_SYSCONFDIR@/default/tee-supplicant
-ExecStart=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_SBINDIR@/tee-supplicant $OPTARGS
+EnvironmentFile=-/@CMAKE_INSTALL_SYSCONFDIR@/default/tee-supplicant
+ExecStart=/usr/sbin/tee-supplicant -d /dev/%i -l /lib/firmware/optee $OPTARGS
+# start ftpm driver after tee-supplicant
+ExecStartPost=-/usr/sbin/rmmod tpm_ftpm_tee ; /usr/sbin/modprobe tpm_ftpm_tee
+KillSignal=SIGTERM
 # Workaround for fTPM TA: stop kernel module before tee-supplicant
-ExecStop=-/bin/sh -c "/sbin/modprobe -v -r tpm_ftpm_tee ; /bin/kill $MAINPID"
+ExecStop=-/usr/sbin/modprobe -v -r tpm_ftpm_tee

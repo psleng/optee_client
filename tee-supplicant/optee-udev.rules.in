@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
-KERNEL=="tee[0-9]*", MODE="0660", OWNER="root", GROUP="@CFG_TEE_GROUP@", TAG+="systemd"
+KERNEL=="tee[0-9]*", MODE="0660", OWNER="@CFG_TEE_SUPPL_USER@", GROUP="@CFG_TEE_GROUP@", TAG+="systemd"
 
 # If a /dev/teepriv[0-9]* device is detected, start an instance of
 # tee-supplicant.service with the device name as parameter
-KERNEL=="teepriv[0-9]*", MODE="0660", OWNER="root", GROUP="@CFG_TEEPRIV_GROUP@", \
+KERNEL=="teepriv[0-9]*", MODE="0660", OWNER="@CFG_TEE_SUPPL_USER@", GROUP="@CFG_TEEPRIV_GROUP@", \
     TAG+="systemd", ENV{SYSTEMD_WANTS}+="tee-supplicant@%k.service"

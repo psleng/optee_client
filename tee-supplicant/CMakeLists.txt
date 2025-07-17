@@ -3,7 +3,7 @@ project(tee-supplicant C)
 ################################################################################
 # Configuration flags always included
 ################################################################################
-option(RPMB_EMU "Enable tee-supplicant to emulate RPMB" ON)
+option(RPMB_EMU "Enable tee-supplicant to emulate RPMB" OFF)
 option(CFG_TA_GPROF_SUPPORT "Enable tee-supplicant support for TAs instrumented with gprof" ON)
 option(CFG_FTRACE_SUPPORT "Enable tee-supplicant support for TAs instrumented with ftrace" ON)
 option(CFG_TEE_SUPP_PLUGINS "Enable tee-supplicant plugin support" ON)
@@ -15,11 +15,11 @@ set(CFG_TEE_FS_PARENT_PATH "${CMAKE_INSTALL_LOCALSTATEDIR}/lib/tee" CACHE STRING
 # FIXME: Why do we have if defined(CFG_GP_SOCKETS) && CFG_GP_SOCKETS == 1 in the c-file?
 set(CFG_GP_SOCKETS "1" CACHE STRING "Enable GlobalPlatform Socket API support")
 set(CFG_TEE_PLUGIN_LOAD_PATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/plugins/" CACHE STRING "tee-supplicant's plugins path")
-
-set(CFG_TEE_GROUP "tee" CACHE STRING "Group which has access to /dev/tee* devices")
-set(CFG_TEEPRIV_GROUP "teepriv" CACHE STRING "Group which has access to /dev/teepriv* devices")
-set(CFG_TEE_SUPPL_USER "teesuppl" CACHE STRING "User account which tee-supplicant is started with")
-set(CFG_TEE_SUPPL_GROUP "teesuppl" CACHE STRING "Group account which tee-supplicant is started with")
+# PERLE changes to root
+set(CFG_TEE_GROUP "root" CACHE STRING "Group which has access to /dev/tee* devices")
+set(CFG_TEEPRIV_GROUP "root" CACHE STRING "Group which has access to /dev/teepriv* devices")
+set(CFG_TEE_SUPPL_USER "root" CACHE STRING "User account which tee-supplicant is started with")
+set(CFG_TEE_SUPPL_GROUP "root" CACHE STRING "Group account which tee-supplicant is started with")
 
 if(CFG_TEE_SUPP_PLUGINS)
 	set(CMAKE_INSTALL_RPATH "${CFG_TEE_PLUGIN_LOAD_PATH}")
