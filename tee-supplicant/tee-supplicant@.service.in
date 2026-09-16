@@ -13,8 +13,8 @@ User=@CFG_TEE_SUPPL_USER@
 Group=@CFG_TEE_SUPPL_GROUP@
 EnvironmentFile=-/@CMAKE_INSTALL_SYSCONFDIR@/default/tee-supplicant
 ExecStart=/usr/sbin/tee-supplicant -d /dev/%i -l /lib/firmware/optee $OPTARGS
-# start ftpm driver after tee-supplicant
-ExecStartPost=-/usr/sbin/rmmod tpm_ftpm_tee ; /usr/sbin/modprobe tpm_ftpm_tee
+# Load fTPM driver after tee-supplicant; early autoload is blocked by modprobe.d/tpm_ftpm_tee.conf.
+ExecStartPost=/usr/sbin/modprobe tpm_ftpm_tee
 KillSignal=SIGTERM
-# Workaround for fTPM TA: stop kernel module before tee-supplicant
+# Unload fTPM driver before tee-supplicant stops (it needs the TA service).
 ExecStop=-/usr/sbin/modprobe -v -r tpm_ftpm_tee

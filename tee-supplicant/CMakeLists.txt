@@ -122,3 +122,6 @@ configure_file(tee-supplicant@.service.in tee-supplicant@.service @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/tee-supplicant@.service DESTINATION ${CMAKE_INSTALL_LIBDIR}/systemd/system)
 configure_file(optee-udev.rules.in optee-udev.rules @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/optee-udev.rules DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/udev/rules.d)
+# fTPM kernel-module load policy, co-located with the service + udev rules it
+# pairs with (see tee-supplicant@.service ExecStartPost). Static file, no vars.
+install(FILES tpm_ftpm_tee.conf DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/modprobe.d)
